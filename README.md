@@ -1,4 +1,4 @@
-# PHPCart
+# ABA
 Provides a simple way to generate an ABA file which is used by banks to allow for batch transactions.
 
 ## Features
