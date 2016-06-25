@@ -1,6 +1,6 @@
 {
     "name": "anam/aba",
-    "description": "Provides a simple way to generate an ABA file to process batches of transactions",
+    "description": "Provides a simple way to generate an ABA file which is used by banks to allow for batch transactions.",
     "keywords": [
         "ABA file",
         "Aba",

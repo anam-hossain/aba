@@ -10,7 +10,7 @@ Provides a simple way to generate an ABA file which is used by banks to allow fo
 - PHP 5.4+
 
 ## Installation
-`anam/aba` is available via Composer
+`Aba` is available via Composer
 
 ```bash
 $ composer require anam/aba
