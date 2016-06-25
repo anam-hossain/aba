@@ -1,0 +1,33 @@
+{
+    "name": "anam/aba",
+    "description": "Provides a simple way to generate an ABA file to process batches of transactions",
+    "keywords": [
+        "ABA file",
+        "Aba",
+        "Australian Bankers Association",
+        "Batch transactions"
+    ],
+    "homepage": "https://github.com/anam-hossain/aba",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anam hossain",
+            "email": "enam33@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Anam\\Aba\\" : "src/" 
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Anam\\Aba\\Test\\": "tests"
+        }
+    }
+}
