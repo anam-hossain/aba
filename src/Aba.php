@@ -52,46 +52,44 @@ class Aba
         // Lets build the descriptive record string
         // Position 1
         // Record Type
-        $descriptiveString = self::DESCRIPTIVE_RECORD;
+        $this->descriptiveString = self::DESCRIPTIVE_RECORD;
 
         // Position 2-18 - Blank spaces
-        $descriptiveString .= $this->addBlankSpaces(17);
+        $this->descriptiveString .= $this->addBlankSpaces(17);
 
         // Postition 19 - 20
         // Reel Sequence Number
-        $descriptiveString .= '01';
+        $this->descriptiveString .= '01';
 
         // Position 21 - 23
         // Bank Name
-        $descriptiveString .= $record['bank_name'];
+        $this->descriptiveString .= $record['bank_name'];
 
         // Position 24 - 30 - Blank spaces
-        $descriptiveString .= $this->addBlankSpaces(7);
+        $this->descriptiveString .= $this->addBlankSpaces(7);
 
         // Position 31 - 56
         // User Name
-        $descriptiveString .= $this->padString($record['user_name'], '26');
+        $this->descriptiveString .= $this->padString($record['user_name'], '26');
 
         // Postion 57 - 62
         // User Number (as allocated by APCA)
-        $descriptiveString .= $this->padString($record['user_number'], '6', '0', STR_PAD_RIGHT);
+        $this->descriptiveString .= $this->padString($record['user_number'], '6', '0', STR_PAD_RIGHT);
 
         // Position 63 - 74
         // Description of entries
-        $descriptiveString .= $this->padString($record['description'], '12');
+        $this->descriptiveString .= $this->padString($record['description'], '12');
 
         // Position 75 - 80
         // Processing date - Format (DDMMYY)
-        $descriptiveString .= $record['process_date'];
+        $this->descriptiveString .= $record['process_date'];
 
         // Position 81-120 - Blank spaces
-        $descriptiveString .= $this->addBlankSpaces(40);
+        $this->descriptiveString .= $this->addBlankSpaces(40);
 
-        $descriptiveString .= $this->addLineBreak();
+        $this->descriptiveString .= $this->addLineBreak();
 
-        $this->descriptiveString = $descriptiveString;
-
-        return $descriptiveString;
+        return $this->descriptiveString;
     }
 
     public function addTransaction(array $transaction)
@@ -132,81 +130,77 @@ class Aba
 
         // Generate detail record string for a transaction
         // Record Type
-        $detailString = self::DETAIL_RECORD;
+        $this->detailString = self::DETAIL_RECORD;
 
         // BSB
-        $detailString .= $transaction['bsb'];
+        $this->detailString .= $transaction['bsb'];
 
         // Account Number
-        $detailString .= $this->padString($transaction['account_number'], '9', ' ', STR_PAD_LEFT);
+        $this->detailString .= $this->padString($transaction['account_number'], '9', ' ', STR_PAD_LEFT);
 
         // Indicator
-        $detailString .= $transaction['indicator'];
+        $this->detailString .= $transaction['indicator'];
 
         // Transaction Code
-        $detailString .= $transaction['transaction_code'];
+        $this->detailString .= $transaction['transaction_code'];
 
         // Transaction Amount
-        $detailString .= $this->padString($this->dollarsToCents($transaction['amount']), '10', '0', STR_PAD_LEFT);
+        $this->detailString .= $this->padString($this->dollarsToCents($transaction['amount']), '10', '0', STR_PAD_LEFT);
 
         // Account Name
-        $detailString .= $this->padString($transaction['account_name'], '32');
+        $this->detailString .= $this->padString($transaction['account_name'], '32');
 
         // Lodgement Reference
-        $detailString .= $this->padString($transaction['reference'], '18', ' ', STR_PAD_LEFT);
+        $this->detailString .= $this->padString($transaction['reference'], '18', ' ', STR_PAD_LEFT);
 
         // Trace BSB
         // Bank (FI)/State/Branch and account number of User to enable retracing of the entry to its source if necessary
-        $detailString .= $this->descriptiveRecord['bsb'];
+        $this->detailString .= $this->descriptiveRecord['bsb'];
 
         // Trace Account Number
-        $detailString .= $this->padString($this->descriptiveRecord['account_number'], '9', ' ', STR_PAD_LEFT);
+        $this->detailString .= $this->padString($this->descriptiveRecord['account_number'], '9', ' ', STR_PAD_LEFT);
 
         // Remitter Name
-        $detailString .= $this->padString($this->descriptiveRecord['remitter'], '16');
+        $this->detailString .= $this->padString($this->descriptiveRecord['remitter'], '16');
 
         // Withholding amount
-        $detailString .= $this->padString($this->dollarsToCents($transaction['withholding_tax']), '8', '0', STR_PAD_LEFT);
+        $this->detailString .= $this->padString($this->dollarsToCents($transaction['withholding_tax']), '8', '0', STR_PAD_LEFT);
 
-        $detailString .= $this->addLineBreak();
+        $this->detailString .= $this->addLineBreak();
 
-        $this->detailString = $detailString;
-
-        return $detailString;
+        return $this->detailString;
     }
 
     public function addFileTotalRecord()
     {
-        $fileTotalString = self::FILE_TOTAL_RECORD;
+        $this->fileTotalString = self::FILE_TOTAL_RECORD;
 
         // BSB Format Filler
         // Must be '999-999'
-        $fileTotalString .= '999-999';
+        $this->fileTotalString .= '999-999';
 
         // 12 Blank spaces
-        $fileTotalString .= $this->addBlankSpaces(12);
+        $this->fileTotalString .= $this->addBlankSpaces(12);
 
         // File net total amount
-        $fileTotalString .= $this->padString($this->dollarsToCents($this->getNetTotal()), '10', '0', STR_PAD_LEFT);
+        $this->fileTotalString .= $this->padString($this->dollarsToCents($this->getNetTotal()), '10', '0', STR_PAD_LEFT);
 
         // File credit total amount
-        $fileTotalString .= $this->padString($this->dollarsToCents($this->totalCreditAmount), '10', '0', STR_PAD_LEFT);
+        $this->fileTotalString .= $this->padString($this->dollarsToCents($this->totalCreditAmount), '10', '0', STR_PAD_LEFT);
 
         // File debit total amount
-        $fileTotalString .= $this->padString($this->dollarsToCents($this->totalDebitAmount), '10', '0', STR_PAD_LEFT);
+        $this->fileTotalString .= $this->padString($this->dollarsToCents($this->totalDebitAmount), '10', '0', STR_PAD_LEFT);
 
         // Must be 24 blank spaces
-        $fileTotalString .= $this->addBlankSpaces(24);
+        $this->fileTotalString .= $this->addBlankSpaces(24);
 
         // Number of records
-        $fileTotalString .= $this->padString($this->totalTransactions, '6', '0', STR_PAD_LEFT);
+        $this->fileTotalString .= $this->padString($this->totalTransactions, '6', '0', STR_PAD_LEFT);
 
         // Must be 40 blank spaces
-        $fileTotalString .= $this->addBlankSpaces(40);
+        $this->fileTotalString .= $this->addBlankSpaces(40);
 
-        $this->fileTotalString = $fileTotalString;
-
-        return $fileTotalString;
+        return $this->fileTotalString;
     }
 
     public function generate()
