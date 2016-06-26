@@ -89,6 +89,8 @@ class Aba
 
         $descriptiveString .= $this->addLineBreak();
 
+        $this->descriptiveString = $descriptiveString;
+
         return $descriptiveString;
     }
 
@@ -168,6 +170,8 @@ class Aba
 
         $detailString .= $this->addLineBreak();
 
+        $this->detailString = $detailString;
+
         return $detailString;
     }
 
@@ -199,6 +203,8 @@ class Aba
 
         // Must be 40 blank spaces
         $fileTotalString .= $this->addBlankSpaces(40);
+
+        $this->fileTotalString = $fileTotalString;
 
         return $fileTotalString;
     }
