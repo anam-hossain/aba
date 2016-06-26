@@ -6,7 +6,7 @@ use \Exception;
 
 class Validator
 {
-    protected static $transactionCodes = [
+    public static $transactionCodes = [
         'externally_initiated_debit'                => '13',
         'externally_initiated_credit'               => '50',
         'australian_government_security_interest '  => '51',
@@ -70,7 +70,7 @@ class Validator
 
     public static function validateTransactionCode($code)
     {
-        if (! in_array($code, $transactionCodes)) {
+        if (! in_array($code, self::$transactionCodes)) {
             throw new Exception("Transaction code is invalid.");
         }
     }
