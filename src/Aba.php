@@ -161,7 +161,7 @@ class Aba
         $detailString .= $this->padString($this->descriptiveRecord['account_number'], '9', ' ', STR_PAD_LEFT);
 
         // Remitter Name
-        $detailString .= $this->padString($transaction['remitter'], '16');
+        $detailString .= $this->padString($this->descriptiveRecord['remitter'], '16');
 
         // Withholding amount
         $detailString .= $this->padString($this->dollarsToCents($transaction['withholding_tax']), '8', '0', STR_PAD_LEFT);
