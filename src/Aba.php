@@ -38,18 +38,18 @@ class Aba
     {
         Validator::validate(
             $record,
-            ['bsb', 'account_number', 'bank_name', 'user_name', 'remitter'],
+            ['bsb', 'account_number', 'bank_name', 'user_name', 'user_number', 'remitter', 'description'],
             'Descriptive'
         );
 
         // Verify processing date
         // The date format must be DDMMYY
         Validator::validateProcessDate($record['process_date']);
-        
+
         // Save the record to use it later
         $this->descriptiveRecord = $record;
 
-        // Lets build the descriptive record string        
+        // Lets build the descriptive record string
         // Position 1
         // Record Type
         $descriptiveString = self::DESCRIPTIVE_RECORD;
@@ -98,7 +98,7 @@ class Aba
     }
 
     /**
-     * 
+     *
      */
     public function addDetailRecord(array $transaction)
     {
@@ -112,7 +112,7 @@ class Aba
 
         Validator::validate(
             $transaction,
-            ['bsb', 'account_number', 'indicator', 'account_name' 'reference'],
+            ['bsb', 'account_number', 'indicator', 'account_name', 'reference'],
             'Detail'
         );
 
@@ -205,7 +205,7 @@ class Aba
 
     public function generate()
     {
-        
+
         $this->abaFileContent = $this->descriptiveString . $this->detailString . $this->fileTotalString;
 
         return $this->abaFileContent;

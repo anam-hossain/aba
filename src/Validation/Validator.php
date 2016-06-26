@@ -35,7 +35,7 @@ class Validator
         'remitter'          => '/^[A-Za-z\s+]{0,16}$/',
     ];
 
-    protected static $messages = [ 
+    protected static $messages = [
         'bsb'               => 'BSB format is incorrect. The valid format is XXX-XXX',
         'account_number'    => 'Account number must be up to 9 digits',
         'bank_name'         => 'Bank name must 3 characters long and Capitalised',
@@ -50,7 +50,7 @@ class Validator
 
     public static function validate(array $record, array $matchRules, $recordType = 'Detail')
     {
-        $this->verifyRecord($record, $matchRules, $recordType);
+        self::verifyRecord($record, $matchRules, $recordType);
 
         foreach ($matchRules as $rule) {
             if (! preg_match(self::$rules[$rule], $record[$rule])) {
@@ -59,12 +59,12 @@ class Validator
         }
     }
 
-    public function verifyRecord(array $record, array $matchRules, $recordType = 'Detail') 
+    public static function verifyRecord(array $record, array $matchRules, $recordType = 'Detail')
     {
         $missingFields = array_diff($matchRules, array_keys($record));
 
         if ($missingFields) {
-            throw new Exception('Some required {$recordType} fields missing: '. implode(",", $missingFields));
+            throw new Exception("Some required {$recordType} fields missing: ". implode(",", $missingFields));
         }
     }
 
@@ -82,13 +82,14 @@ class Validator
         }
 
         $parsed = date_parse_from_format('dmy', $date);
-        
+
         if (! ($parsed['error_count'] === 0 && $parsed['warning_count'] === 0)) {
             throw new Exception("Process date is invalid. Process date must be in 'DDMMYY' format");
         }
     }
 
-    public static function validateNumeric($value) {
+    public static function validateNumeric($value)
+    {
         if (! is_numeric($value)) {
             throw new Exception("Amount or Withholding tax amount must be a numeric number");
         }
