@@ -8,32 +8,86 @@ use \Exception;
 class Aba
 {
     const DESCRIPTIVE_RECORD = '0';
+    // Detail Record Type 1. 
+    // There are three detail record types 1, 2 and 3.
+    // Only type 1 is used for batch tranactions
     const DETAIL_RECORD = '1';
+
     const FILE_TOTAL_RECORD = '7';
 
+    /**
+     * The APCA standard string to generate ABA file
+     * 
+     * @var string
+     */
     protected $abaFileContent = '';
 
+    /**
+     * Total number of the transactions
+     * 
+     * @var integer
+     */
     protected $totalTransactions = 0;
 
+    /**
+     *  Credit total amount
+     *  
+     * @var float
+     */
     protected $totalCreditAmount = 0;
 
+    /**
+     * Debit total amount
+     * 
+     * @var float
+     */
     protected $totalDebitAmount = 0;
 
-    protected $countRecords = 0;
-
+    /**
+     * Descriptive record
+     * 
+     * @var array
+     */
     protected $descriptiveRecord;
 
+    /**
+     * Descriptive or file header string
+     * 
+     * @var string
+     */
     protected $descriptiveString = '';
 
+    /**
+     * Detail string
+     * 
+     * @var string
+     */
     protected $detailString = '';
 
+    /**
+     * File total string
+     * 
+     * @var string
+     */
     protected $fileTotalString = '';
 
+    /**
+     * Alias of addDescriptiveRecord
+     * 
+     * @param  array  $record
+     * @return string
+     */
     public function addFileDetails(array $record)
     {
         return $this->addDescriptiveRecord($record);
     }
 
+    /**
+     * Generate descriptive record string
+     * 
+     * @param  array  $record
+     * @return string
+     */
     public function addDescriptiveRecord(array $record)
     {
         Validator::validate(
@@ -92,13 +146,22 @@ class Aba
         return $this->descriptiveString;
     }
 
+    /**
+     * Alias of AddDetailRecord
+     * 
+     * @param  array  $record
+     * @return string
+     */
     public function addTransaction(array $transaction)
     {
         return $this->addDetailRecord($transaction);
     }
 
     /**
-     *
+     * Generate detail record string
+     * 
+     * @param  array  $transaction
+     * @return string
      */
     public function addDetailRecord(array $transaction)
     {
@@ -171,6 +234,11 @@ class Aba
         return $this->detailString;
     }
 
+    /**
+     * Generate file total string
+     *
+     * @return string
+     */
     public function addFileTotalRecord()
     {
         $this->fileTotalString = self::FILE_TOTAL_RECORD;
@@ -203,35 +271,70 @@ class Aba
         return $this->fileTotalString;
     }
 
+    /** 
+     * Generate ABA file content
+     *
+     * @return string
+    */
     public function generate()
     {
         $this->addFileTotalRecord();
-        
+
         $this->abaFileContent = $this->descriptiveString . $this->detailString . $this->fileTotalString;
 
         return $this->abaFileContent;
     }
 
+    /**
+     * Download ABA file
+     */
     public function download()
     {
         //
     }
 
+    /**
+     * Generate blank spaces
+     * 
+     * @param int  $number [description]
+     * @return string
+     */
     public function AddBlankSpaces($number)
     {
         return str_repeat(' ', $number);
     }
 
+    /**
+     * Pad a string to a certain length with another string
+     * 
+     * @param  string $value
+     * @param  int $length
+     * @param  string $padString
+     * @param  int $type
+     * @return string
+     */
     public function padString($value, $length, $padString = ' ', $type = STR_PAD_RIGHT)
     {
         return str_pad(substr($value, 0, $length), $length, $padString, $type);
     }
 
+    /**
+     * Convert decimal points to cents
+     * 
+     * @param  float $amount
+     * @return int
+     */
     public function dollarsToCents($amount)
     {
         return $amount * 100;
     }
 
+    /**
+     * Check a transaction is debit or credit and sum the amount accordingly
+     * 
+     * @param  array  $transaction
+     * @return void
+     */
     protected function calculateDebitOrCreditAmount(array $transaction)
     {
         if ($transaction['transaction_code'] == Validator::$transactionCodes['externally_initiated_debit']) {
@@ -241,11 +344,21 @@ class Aba
         }
     }
 
+    /**
+     * Calculate net total
+     * 
+     * @return float
+     */
     protected function getNetTotal()
     {
         return abs($this->totalCreditAmount - $this->totalDebitAmount);
     }
 
+    /**
+     * Line break
+     *
+     * @return  string
+     */
     protected function addLineBreak()
     {
         return "\r\n";

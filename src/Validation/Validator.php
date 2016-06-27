@@ -6,6 +6,11 @@ use \Exception;
 
 class Validator
 {
+    /**
+     * Transaction codes
+     * 
+     * @var array
+     */
     public static $transactionCodes = [
         'externally_initiated_debit'                => '13',
         'externally_initiated_credit'               => '50',
@@ -19,6 +24,11 @@ class Validator
         'note_interest'                             => '57'
     ];
 
+    /**
+     * Validation rules
+     * 
+     * @var array
+     */
     protected static $rules = [
         'bsb'               => '/^[\d]{3}-[\d]{3}$/',
         'account_number'    => '/^[\d]{0,9}$/',
@@ -35,6 +45,11 @@ class Validator
         'remitter'          => '/^[A-Za-z\s+]{0,16}$/',
     ];
 
+    /**
+     * Error messages
+     * 
+     * @var array
+     */
     protected static $messages = [
         'bsb'               => 'BSB format is incorrect. The valid format is XXX-XXX',
         'account_number'    => 'Account number must be up to 9 digits',
@@ -48,6 +63,14 @@ class Validator
         'remitter'          => 'The remitter must be letters only and up to 16 characters long.',
     ];
 
+    /**
+     * Validate a record
+     * 
+     * @param  array  $record
+     * @param  array  $matchRules
+     * @param  string $recordType
+     * @return void
+     */
     public static function validate(array $record, array $matchRules, $recordType = 'Detail')
     {
         self::verifyRecord($record, $matchRules, $recordType);
@@ -59,6 +82,14 @@ class Validator
         }
     }
 
+    /**
+     * Check any required fields is missing
+     * 
+     * @param  array  $record
+     * @param  array  $matchRules
+     * @param  string $recordType
+     * @return void
+     */
     public static function verifyRecord(array $record, array $matchRules, $recordType = 'Detail')
     {
         $missingFields = array_diff($matchRules, array_keys($record));
@@ -68,6 +99,12 @@ class Validator
         }
     }
 
+    /**
+     * Validate a transaction code
+     * 
+     * @param  string $code
+     * @return void
+     */
     public static function validateTransactionCode($code)
     {
         if (! in_array($code, self::$transactionCodes)) {
@@ -75,6 +112,12 @@ class Validator
         }
     }
 
+    /**
+     * Validate processing date. The date when transaction will be perform.
+     * 
+     * @param  string  $date
+     * @return void
+     */
     public static function validateProcessDate($date)
     {
         if (! is_string($date) && ! is_numeric($date)) {
@@ -88,6 +131,12 @@ class Validator
         }
     }
 
+    /**
+     * Check a number is numeric or not
+     * 
+     * @param  float $value
+     * @return void
+     */
     public static function validateNumeric($value)
     {
         if (! is_numeric($value)) {
