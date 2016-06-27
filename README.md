@@ -76,10 +76,6 @@ $aba->download();
 
 ###### Mutiple transactions
 ```php
-use Anam\Aba\Aba;
-
-$aba = new Aba();
-
 $transactions = [
     [
         'bsb' => '111-111', // bsb with hyphen
