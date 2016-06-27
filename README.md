@@ -135,35 +135,35 @@ Aba::download();
         </tr>
         <tr>
             <td>Bank name</td>
-            <td>Bank name must 3 characters long and Capitalised. For example: CBA</td>
+            <td>Bank name must be 3 characters long and Capitalised. For example: CBA</td>
         </tr>
         <tr>
             <td>BSB</td>
-            <td>The valid BSB format is XXX-XXX</td>
+            <td>The valid BSB format is XXX-XXX.</td>
         </tr>
         <tr>
             <td>Account number</td>
-            <td>Account number must be up to 9 digits</td>
+            <td>Account number must be up to 9 digits.</td>
         </tr>
         <tr>
             <td>User name (Descriptive record)</td>
-            <td>User or Preferred name must be letters only and up to 26 characters long</td>
+            <td>User or preferred name must be letters only and up to 26 characters long.</td>
         </tr>
         <tr>
             <td>Account name (Detail record)</td>
-            <td>Account name must be letters only and up to 32 characters long</td>
+            <td>Account name must be letters only and up to 32 characters long.</td>
         </tr>
         <tr>
             <td>User number</td>
-            <td>User number which is allocated by APCA must be up to 6 digits long. The Commonwealth bank default is 301500</td>
+            <td>User number which is allocated by APCA must be up to 6 digits long. The Commonwealth bank default is 301500.</td>
         </tr>
         <tr>
             <td>Description (Descriptive record)</td>
-            <td>Description must be up to 12 characters long and letters only</td>
+            <td>Description must be up to 12 characters long and letters only.</td>
         </tr>
         <tr>
-            <td>Reference</td>
-            <td>The reference must be up to 18 characters long. For example: Payroll number</td>
+            <td>Reference (Detail record)</td>
+            <td>The reference must be up to 18 characters long. For example: Payroll number.</td>
         </tr>
         <tr>
             <td>Remitter</td>

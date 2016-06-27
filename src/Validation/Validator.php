@@ -53,8 +53,8 @@ class Validator
     protected static $messages = [
         'bsb'               => 'BSB format is incorrect. The valid format is XXX-XXX',
         'account_number'    => 'Account number must be up to 9 digits',
-        'bank_name'         => 'Bank name must 3 characters long and Capitalised',
-        'user_name'         => 'User or Preferred name must be letters only and up to 26 characters long',
+        'bank_name'         => 'Bank name must be 3 characters long and Capitalised',
+        'user_name'         => 'User or preferred name must be letters only and up to 26 characters long',
         'account_name'      => 'Account name must be letters only and up to 32 characters long',
         'user_number'       => 'User number which is allocated by APCA must be up to 6 digits long. The Commonwealth bank default is 301500',
         'description'       => 'Description must be up to 12 characters long and letters only',
