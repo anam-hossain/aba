@@ -126,7 +126,7 @@ Aba::download();
 ##### Validation
 
 ##### Transaction codes
-<table border="1" cellpadding="5" cellspacing="0">
+<table cellpadding="5" cellspacing="0">
     <tbody>
         <tr>
             <td>Code</td>
