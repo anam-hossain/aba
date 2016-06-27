@@ -15,7 +15,7 @@ class Aba
     const DESCRIPTIVE_RECORD = '0';
 
     /**
-     * Detail Record Type 1.
+     * Detail record Type 1.
      * There are three detail record types 1, 2 and 3.
      * Only type 1 is used for batch tranactions
      * 
@@ -24,7 +24,7 @@ class Aba
     const DETAIL_RECORD = '1';
 
     /**
-     * Record type 7 
+     * File total record type 7 
      * 
      * @const string
      */
@@ -302,10 +302,22 @@ class Aba
 
     /**
      * Download ABA file
+     * 
+     * @param  string  $downloadAs
+     * @return void
      */
-    public function download()
+    public function download($downloadAs = '')
     {
-        //
+        $downloadAs = $downloadAs? $downloadAs : "transactions";
+
+        header('Content-Description: Aba file');
+        header("Content-Type: text/plain");
+        header("Content-Disposition: attachment; filename={$downloadAs}.aba");
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Content-Length: ' . strlen($this->abaFileContent));
+        echo $this->abaFileContent;
+        exit;
     }
 
     /**
