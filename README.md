@@ -59,6 +59,7 @@ $aba->addFileDetails([
     'process_date'  => '270616' // DDMMYY - Date to be processed 
 ]);
 
+// Add a transaction or Detail record
 $aba->addTransaction([
     'bsb' => '111-111', // bsb with hyphen
     'account_number' => '999999999',
@@ -68,9 +69,9 @@ $aba->addTransaction([
     'amount' => '250.87'
 ]);
 
-$aba->generate();
+$abaFileContent = $aba->generate(); // Generate ABA string.
 
-$aba->download(); // $aba->download("file name");
+$aba->download();
 ```
 
 ###### Mutiple transactions
@@ -92,7 +93,7 @@ $transactions = [
         'bsb' => '222-2222', // bsb with hyphen
         'account_number' => '888888888',
         'account_name'  => 'Foo Bar',
-        'reference' => 'Transfer rent',
+        'reference' => 'Rent',
         'transaction_code'  => '50', // See validation section for more info.
         'amount' => '300'
     ]
@@ -122,8 +123,53 @@ Aba::generate();
 
 Aba::download();
 ```
-###### Validation
+##### Validation
 
+##### Transaction codes
+<table border="1" cellpadding="5" cellspacing="0">
+    <tbody>
+        <tr>
+            <td>Code</td>
+            <td>*Transaction Description*</td>
+        </tr>
+        <tr>
+            <td>13</td>
+            <td>Externally initiated debit items</td>
+        </tr>
+        <tr>
+            <td>50</td>
+            <td>Externally initiated credit items with the exception of those bearing Transaction Codes</td>
+        </tr>
+        <tr>
+            <td>51</td>
+            <td>Australian Government Security Interest</td>
+        </tr>
+        <tr>
+            <td>52</td>
+            <td>Family Allowance</td>
+        </tr>
+        <tr>
+            <td>53</td>
+            <td>Pay</td>
+        </tr>
+        <tr>
+            <td>54</td>
+            <td>Pension</td>
+        </tr>
+        <tr>
+            <td>55</td>
+            <td>Allotment</td>
+        </tr>
+        <tr>
+            <td>56</td>
+            <td>Dividend</td>
+        </tr>
+        <tr>
+            <td>57</td>
+            <td>Debenture/Note Interest</td>
+        </tr>
+    </tbody>
+</table>
 
 ## Reference
 - [http://www.apca.com.au/docs/default-source/payment-systems/becs_procedures.pdf](http://www.apca.com.au/docs/default-source/payment-systems/becs_procedures.pdf)
