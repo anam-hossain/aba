@@ -130,7 +130,7 @@ class Aba
 
         // Generate detail record string for a transaction
         // Record Type
-        $this->detailString = self::DETAIL_RECORD;
+        $this->detailString .= self::DETAIL_RECORD;
 
         // BSB
         $this->detailString .= $transaction['bsb'];
@@ -205,7 +205,8 @@ class Aba
 
     public function generate()
     {
-
+        $this->addFileTotalRecord();
+        
         $this->abaFileContent = $this->descriptiveString . $this->detailString . $this->fileTotalString;
 
         return $this->abaFileContent;
