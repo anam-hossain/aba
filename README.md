@@ -4,6 +4,7 @@ Provides a simple way to generate an ABA file which is used by banks to allow fo
 ## Features
 
 - Simple API
+- Framework agnostic
 
 ## Requirements
 
@@ -15,3 +16,117 @@ Provides a simple way to generate an ABA file which is used by banks to allow fo
 ```bash
 $ composer require anam/aba
 ```
+
+## Integrations
+
+##### Laravel integrations
+Although `Aba` is framework agnostic, it does support Laravel out of the box and comes with a Service provider and Facade for easy integration.
+
+After you have installed the `Aba`, open the `config/app.php` file which is included with Laravel and add the following lines.
+
+In the `$providers` array add the following service provider.
+
+```php
+Anam\Aba\AbaServiceProvider::class
+```
+
+Add the facade of this package to the `$aliases` array.
+
+```php
+'Aba' => Anam\Aba\Facades\Aba::class,
+```
+
+You can now use this facade in place of instantiating the converter yourself in the following examples.
+
+## Usage
+
+```php
+use Anam\Aba\Aba;
+
+$aba = new Aba();
+
+// Descriptive record or file header
+// The header information is included at the top of every ABA file
+// and is used to describe your bank details.
+$aba->addFileDetails([
+    'bank_name' => 'CBA', // bank name
+    'user_name' => 'Your account name', // Account name
+    'bsb' => '062-111', // bsb with hyphen
+    'account_number' => '101010101', // account number
+    'remitter' => 'Name of remitter', // Remitter
+    'user_number' => '301500', // User Number (as allocated by APCA). The Commonwealth bank default is 301500
+    'description' => 'Payroll', // description
+    'process_date'  => '270616' // DDMMYY - Date to be processed 
+]);
+
+$aba->addTransaction([
+    'bsb' => '111-111', // bsb with hyphen
+    'account_number' => '999999999',
+    'account_name'  => 'Jhon doe',
+    'reference' => 'Payroll number',
+    'transaction_code'  => '53', // See validation section for more info.
+    'amount' => '250.87'
+]);
+
+$aba->generate();
+
+$aba->download(); // $aba->download("file name");
+```
+
+###### Mutiple transactions
+```php
+use Anam\Aba\Aba;
+
+$aba = new Aba();
+
+$transactions = [
+    [
+        'bsb' => '111-111', // bsb with hyphen
+        'account_number' => '999999999',
+        'account_name'  => 'Jhon doe',
+        'reference' => 'Payroll number',
+        'transaction_code'  => '53', // See validation section for more info.
+        'amount' => '250.87'
+    ],
+    [
+        'bsb' => '222-2222', // bsb with hyphen
+        'account_number' => '888888888',
+        'account_name'  => 'Foo Bar',
+        'reference' => 'Transfer rent',
+        'transaction_code'  => '50', // See validation section for more info.
+        'amount' => '300'
+    ]
+];
+
+foreach ($transactions as $transaction) {
+    $aba->addTransaction($transaction);
+}
+
+$aba->generate();
+
+$aba->download("Multiple-transactions");
+```
+
+#### Laravel example
+```php
+use Aba;
+
+// Descriptive record or file header
+// The header information is included at the top of every ABA file
+// and is used to describe your bank details.
+Aba::addFileDetails([]);
+
+Aba::addTransaction([]);
+
+Aba::generate();
+
+Aba::download();
+```
+###### Validation
+
+
+## Reference
+- [http://www.apca.com.au/docs/default-source/payment-systems/becs_procedures.pdf](http://www.apca.com.au/docs/default-source/payment-systems/becs_procedures.pdf)
+- [https://www.commbank.com.au/content/dam/robohelp/PDFS/commbiz_direct_credit_debit.pdf](https://www.commbank.com.au/content/dam/robohelp/PDFS/commbiz_direct_credit_debit.pdf)
+- [https://www.cemtexaba.com/aba-format/cemtex-aba-file-format-details](https://www.cemtexaba.com/aba-format/cemtex-aba-file-format-details)
+
