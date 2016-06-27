@@ -7,12 +7,27 @@ use \Exception;
 
 class Aba
 {
+    /**
+     * Descriptive record type 0. 
+     * 
+     * @const string
+     */
     const DESCRIPTIVE_RECORD = '0';
-    // Detail Record Type 1. 
-    // There are three detail record types 1, 2 and 3.
-    // Only type 1 is used for batch tranactions
+
+    /**
+     * Detail Record Type 1.
+     * There are three detail record types 1, 2 and 3.
+     * Only type 1 is used for batch tranactions
+     * 
+     * @const string
+     */
     const DETAIL_RECORD = '1';
 
+    /**
+     * Record type 7 
+     * 
+     * @const string
+     */
     const FILE_TOTAL_RECORD = '7';
 
     /**
