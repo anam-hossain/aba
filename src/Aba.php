@@ -206,42 +206,55 @@ class Aba
         // Increment total transactions
         $this->totalTransactions++;
 
+
         // Generate detail record string for a transaction
         // Record Type
+        // Position 1
         $this->detailString .= self::DETAIL_RECORD;
 
         // BSB
+        // Position 2-8
         $this->detailString .= $transaction['bsb'];
 
         // Account Number
+        // Position 9-17
         $this->detailString .= $this->padString($transaction['account_number'], '9', ' ', STR_PAD_LEFT);
 
         // Indicator
+        // Position 18
         $this->detailString .= $transaction['indicator'];
 
         // Transaction Code
+        // Position 19-20
         $this->detailString .= $transaction['transaction_code'];
 
         // Transaction Amount
+        // Position 21-30
         $this->detailString .= $this->padString($this->dollarsToCents($transaction['amount']), '10', '0', STR_PAD_LEFT);
 
         // Account Name
+        // Position 31-62
         $this->detailString .= $this->padString($transaction['account_name'], '32');
 
         // Lodgement Reference
+        // Position 63-80
         $this->detailString .= $this->padString($transaction['reference'], '18', ' ', STR_PAD_LEFT);
 
         // Trace BSB
         // Bank (FI)/State/Branch and account number of User to enable retracing of the entry to its source if necessary
+        // Position 81-87
         $this->detailString .= $this->descriptiveRecord['bsb'];
 
         // Trace Account Number
+        // Position 88-96
         $this->detailString .= $this->padString($this->descriptiveRecord['account_number'], '9', ' ', STR_PAD_LEFT);
 
         // Remitter Name
+        // Position 97-112
         $this->detailString .= $this->padString($this->descriptiveRecord['remitter'], '16');
 
         // Withholding amount
+        // Position 113-120
         $this->detailString .= $this->padString($this->dollarsToCents($transaction['withholding_tax']), '8', '0', STR_PAD_LEFT);
 
         $this->detailString .= $this->addLineBreak();
@@ -256,31 +269,41 @@ class Aba
      */
     public function addFileTotalRecord()
     {
+        // Record Type
+        // Position 1
         $this->fileTotalString = self::FILE_TOTAL_RECORD;
 
         // BSB Format Filler
         // Must be '999-999'
+        // Position 2-8
         $this->fileTotalString .= '999-999';
 
         // 12 Blank spaces
+        // Position 9-20
         $this->fileTotalString .= $this->addBlankSpaces(12);
 
         // File net total amount
+        // Position 21-30
         $this->fileTotalString .= $this->padString($this->dollarsToCents($this->getNetTotal()), '10', '0', STR_PAD_LEFT);
 
         // File credit total amount
+        // Position 31-40
         $this->fileTotalString .= $this->padString($this->dollarsToCents($this->totalCreditAmount), '10', '0', STR_PAD_LEFT);
 
         // File debit total amount
+        // Position 41-50
         $this->fileTotalString .= $this->padString($this->dollarsToCents($this->totalDebitAmount), '10', '0', STR_PAD_LEFT);
 
         // Must be 24 blank spaces
+        // Position 51-74
         $this->fileTotalString .= $this->addBlankSpaces(24);
 
         // Number of records
+        // Position 75-80
         $this->fileTotalString .= $this->padString($this->totalTransactions, '6', '0', STR_PAD_LEFT);
 
         // Must be 40 blank spaces
+        // Position 81-120
         $this->fileTotalString .= $this->addBlankSpaces(40);
 
         return $this->fileTotalString;
