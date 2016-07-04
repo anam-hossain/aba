@@ -18,13 +18,15 @@ class AbaTest extends TestCase
     {
         $expectedDescriptiveString = '0                 01CBA       FOO BAR CORPORATION       301500PAYROLL     290616                                        ';
 
-        $descriptveString = $this->aba->addDescriptiveRecord($this->descriptiveData());
+        $descriptiveString = $this->aba->addDescriptiveRecord($this->descriptiveData());
 
         // Total descriptve record would be 120 characters
         // remove line break
-        $descriptveString = substr($descriptveString, 0, 120);
+        $descriptiveString = substr($descriptiveString, 0, 120);
 
-        $this->assertEquals($expectedDescriptiveString, $descriptveString);
+        $this->assertEquals($expectedDescriptiveString, $descriptiveString);
+
+        return $descriptiveString;
     }
 
     public function testAddDetailRecord()
@@ -40,6 +42,8 @@ class AbaTest extends TestCase
         $detailString = substr($detailString, 0, 120);
 
         $this->assertEquals($expectedDetailString, $detailString);
+
+        return $detailString;
     }
 
     public function testAddFileTotalRecord()
@@ -49,13 +53,31 @@ class AbaTest extends TestCase
         $this->aba->addDescriptiveRecord($this->descriptiveData());
         $this->aba->addDetailRecord($this->detailData());
 
-        $filTotalString = $this->aba->addFileTotalRecord();
+        $fileTotalString = $this->aba->addFileTotalRecord();
 
         // Total detail record would be 120 characters
         // remove line break
-        $filTotalString = substr($filTotalString, 0, 120);
+        $fileTotalString = substr($fileTotalString, 0, 120);
 
-        $this->assertEquals($expectedFileTotalString, $filTotalString);
+        $this->assertEquals($expectedFileTotalString, $fileTotalString);
+
+        return $fileTotalString;
+    }
+
+    public function testGenerate()
+    {
+        $expectedDescriptiveString = '0                 01CBA       FOO BAR CORPORATION       301500PAYROLL     290616                                        ';
+        $expectedDetailString = '1111-111999999999 530000025087Jhon doe                            Payroll number062-111111111111FOO BAR         00000000';
+        $expectedFileTotalString = '7999-999            000002508700000250870000000000                        000001                                        ';
+                
+        $this->aba->addDescriptiveRecord($this->descriptiveData());
+        $this->aba->addDetailRecord($this->detailData());
+
+        $abaString = $this->aba->generate();
+
+        $this->assertContains($expectedDescriptiveString, $abaString, "Testing descriptive record string is valid");
+        $this->assertContains($expectedDetailString, $abaString, "Testing detail record string is valid");
+        $this->assertContains($expectedFileTotalString, $abaString, "Testing file total record string is valid");
     }
 
     protected function descriptiveData()
