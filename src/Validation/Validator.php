@@ -80,6 +80,8 @@ class Validator
                 throw new Exception($recordType . ': ' . self::$messages[$rule]);
             }
         }
+
+        return true;
     }
 
     /**
@@ -97,6 +99,8 @@ class Validator
         if ($missingFields) {
             throw new Exception("Some required {$recordType} fields missing: ". implode(",", $missingFields));
         }
+
+        return true;
     }
 
     /**
@@ -110,6 +114,8 @@ class Validator
         if (! in_array($code, self::$transactionCodes)) {
             throw new Exception("Transaction code is invalid.");
         }
+
+        return true;
     }
 
     /**
@@ -129,6 +135,8 @@ class Validator
         if (! ($parsed['error_count'] === 0 && $parsed['warning_count'] === 0)) {
             throw new Exception("Process date is invalid. Process date must be in 'DDMMYY' format");
         }
+
+        return true;
     }
 
     /**
@@ -142,5 +150,7 @@ class Validator
         if (! is_numeric($value)) {
             throw new Exception("Amount or Withholding tax amount must be a numeric number");
         }
+
+        return true;
     }
 }
