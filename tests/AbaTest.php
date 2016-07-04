@@ -126,6 +126,8 @@ class AbaTest extends TestCase
 
         $this->assertEquals($expectedCreditAmount, $this->aba->getTotalCreditAmount());
 
+        $this->assertNotEquals(0, $this->aba->getTotalCreditAmount());
+
         $this->assertEquals(0, $this->aba->getTotalDebitAmount());
     }
 
