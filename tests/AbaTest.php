@@ -7,6 +7,8 @@ use Anam\Aba\Aba;
 
 class AbaTest extends TestCase
 {
+    use PrivateAndProtectedMethodsAccessibleTrait;
+
     protected $aba;
 
     public function __construct()
@@ -97,6 +99,18 @@ class AbaTest extends TestCase
         $expected = 25065;
 
         $this->assertEquals($expected, $this->aba->dollarsToCents(250.65));
+    }
+
+    public function testGetNetTotal()
+    {
+        $this->aba->addDescriptiveRecord($this->descriptiveData());
+        $this->aba->addDetailRecord($this->detailData());
+
+        $expected = 250.87;
+
+        $total = $this->invokeMethod($this->aba, 'getNetTotal');
+
+        $this->assertEquals($expected, $total);
     }
 
     protected function descriptiveData()
