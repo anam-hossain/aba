@@ -80,6 +80,25 @@ class AbaTest extends TestCase
         $this->assertContains($expectedFileTotalString, $abaString, "Testing file total record string is valid");
     }
 
+    public function testAddBlankSpaces()
+    {
+        $this->assertEquals('   ', $this->aba->addBlankSpaces(3));
+    }
+
+    public function testPadString()
+    {
+        $expected = 'Foo Bar   ';
+
+        $this->assertEquals($expected, $this->aba->padString('Foo Bar', 10));
+    }
+
+    public function testDollarsToCents()
+    {
+        $expected = 25065;
+
+        $this->assertEquals($expected, $this->aba->dollarsToCents(250.65));
+    }
+
     protected function descriptiveData()
     {
         return [
