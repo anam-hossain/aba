@@ -380,6 +380,26 @@ class Aba
     }
 
     /**
+     * Get total Credit amount
+     * 
+     * @return float
+     */
+    public function getTotalCreditAmount()
+    {
+        return $this->totalCreditAmount;
+    }
+
+    /**
+     * Get total debit amount
+     * 
+     * @return float
+     */
+    public function getTotalDebitAmount()
+    {
+        return $this->totalDebitAmount;
+    }
+
+    /**
      * Check a transaction is debit or credit and sum the amount accordingly
      * 
      * @param  array  $transaction

@@ -113,6 +113,22 @@ class AbaTest extends TestCase
         $this->assertEquals($expected, $total);
     }
 
+    public function testAddLineBreak()
+    {
+        $this->assertEquals("\r\n", $this->invokeMethod($this->aba, 'addLineBreak'));
+    }
+
+    public function testCalculateDebitOrCreditAmount()
+    {
+        $expectedCreditAmount = 250.87;
+
+        $this->invokeMethod($this->aba, 'calculateDebitOrCreditAmount', [$this->detailData()]);
+
+        $this->assertEquals($expectedCreditAmount, $this->aba->getTotalCreditAmount());
+
+        $this->assertEquals(0, $this->aba->getTotalDebitAmount());
+    }
+
     protected function descriptiveData()
     {
         return [
