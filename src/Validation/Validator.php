@@ -36,12 +36,12 @@ class Validator
         // Your organisation name
         'user_name'         => '/^[A-Za-z\s+]{0,26}$/',
         // Title of account to be credited/debited
-        'account_name'      => '/^[A-Za-z\s+]{0,32}$/',
+        'account_name'      => "/^[A-Za-z0-9^_[\]',?;:=#\/.*()&%!$ @+-]{0,32}$/",
         // User Identification Number which is allocated by APCA
         'user_number'       => '/^[\d]{0,6}$/',
         'description'       => '/^[A-Za-z\s]{0,12}$/',
         'indicator'         => '/^N|T|W|X|Y| /',
-        'reference'         => '/^[A-Za-z0-9\s+]{0,18}$/',
+        'reference'         => "/^[A-Za-z0-9^_[\]',?;:=#\/.*()&%!$ @+-]{0,18}$/",
         'remitter'          => '/^[A-Za-z\s+]{0,16}$/',
     ];
 
@@ -55,11 +55,11 @@ class Validator
         'account_number'    => 'Account number must be up to 9 digits',
         'bank_name'         => 'Bank name must be 3 characters long and Capitalised',
         'user_name'         => 'User or preferred name must be letters only and up to 26 characters long',
-        'account_name'      => 'Account name must be letters only and up to 32 characters long',
+        'account_name'      => 'Account name must be BECS characters and up to 32 characters long',
         'user_number'       => 'User number which is allocated by APCA must be up to 6 digits long. The Commonwealth bank default is 301500',
         'description'       => 'Description must be up to 12 characters long and letters only',
         'indicator'         => 'The Indicator is invalid. Must be one of N, W, X, Y or otherwise blank filled.',
-        'reference'         => 'The reference must be up to 18 characters long. For example: Payroll number',
+        'reference'         => 'The reference must be BECS characters and up to 18 characters long and . For example: Payroll number',
         'remitter'          => 'The remitter must be letters only and up to 16 characters long.',
     ];
 

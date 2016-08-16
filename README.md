@@ -147,7 +147,7 @@ Aba::download();
         </tr>
         <tr>
             <td>Account name (Detail record)</td>
-            <td>Account name must be letters only and up to 32 characters long.</td>
+            <td>Account name must be BECS characters only and up to 32 characters long.</td>
         </tr>
         <tr>
             <td>User number</td>
@@ -159,7 +159,7 @@ Aba::download();
         </tr>
         <tr>
             <td>Reference (Detail record)</td>
-            <td>The reference must be up to 18 characters long. For example: Payroll number.</td>
+            <td>The reference must be BECS characters only and up to 18 characters long. For example: Payroll number.</td>
         </tr>
         <tr>
             <td>Remitter</td>
